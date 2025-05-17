@@ -49,6 +49,11 @@ public class InputManager : MonoBehaviour
         return playerControls.Player.Look.ReadValue<Vector2>();
     }
 
+    public bool IsMoving()
+    {
+        return playerControls.Player.Move.IsInProgress();
+    }
+
     public bool PlayerJumped()
     {
         return playerControls.Player.Jump.triggered;

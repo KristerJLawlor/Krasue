@@ -24,8 +24,8 @@ public class CinemachinePOVExtension : CinemachineExtension
     protected override void PostPipelineStageCallback(CinemachineVirtualCameraBase vcam, CinemachineCore.Stage stage, ref CameraState state, float deltaTime)
     {
         if(vcam.Follow)
-        {
-            if(stage == CinemachineCore.Stage.Aim)
+        {   //Debug.Log("CinemachinePOVExtension: vcam.Follow is not null");
+            if (stage == CinemachineCore.Stage.Aim)
             {
                 if(startingRotation == null)
                 {

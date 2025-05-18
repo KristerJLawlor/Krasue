@@ -1,3 +1,4 @@
+using UnityEditor.Rendering.Canvas.ShaderGraph;
 using UnityEngine;
 
 public class CameraBob : MonoBehaviour
@@ -24,32 +25,33 @@ public class CameraBob : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Mathf.Abs(controller.moveDirection.x) > 0.1f || Mathf.Abs(controller.moveDirection.z) > 0.1f)
+        
+        if ((controller.canMove && !inputManager.IsCrouching()))
         {
-            if(!inputManager.IsSprinting())
+            
+            if (Mathf.Abs(controller.moveDirection.x) > 0.1f || Mathf.Abs(controller.moveDirection.z) > 0.1f)
             {
-                //Debug.Log("Player is walk bobbin~");
+                if (!inputManager.IsSprinting())
+                {                    
+                    //Walking
+                    timer += Time.deltaTime * walkingBobbingSpeed;
+                    transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * bobbingAmountWalking, transform.localPosition.z);
+                }
+                else
+                {
+                    //Sprinting
+                    timer += Time.deltaTime * sprintingBobbingSpeed;
+                    transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * bobbingAmountSprinting, transform.localPosition.z);
+                }
 
-                //Walking
-                timer += Time.deltaTime * walkingBobbingSpeed;
-                transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * bobbingAmountWalking, transform.localPosition.z);
             }
             else
             {
-                //Debug.Log("Player is sprint bobbin~");
-
-                //Sprinting
-                timer += Time.deltaTime * sprintingBobbingSpeed;
-                transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * bobbingAmountSprinting, transform.localPosition.z);
-            }
-
+                //Idle
+                timer = 0;
+                transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(transform.localPosition.y, defaultPosY, Time.deltaTime * walkingBobbingSpeed), transform.localPosition.z);
+            }           
         }
-        else
-        {
-            //Debug.Log("Player is NOT head bobbin~");
-            //Idle
-            timer = 0;
-            transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(transform.localPosition.y, defaultPosY, Time.deltaTime * walkingBobbingSpeed), transform.localPosition.z);
-        }
+
     }
 }

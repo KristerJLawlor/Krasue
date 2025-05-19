@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private GameObject headObject;
 
     // Player movement variables
-    private float playerSpeed = 4.0f;
+    private float playerSpeed = 0f;
     private float walkSpeed = 4.0f;
     private float sprintSpeed = 8.0f;     
     private float jumpHeight = 1.0f;
@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
     private float crouchCameraOffset = -1f;
     public bool isCrouching = false;
 
+    //Animation
+    private Animator animator;
+
 
 
     private void Start()
@@ -43,7 +46,6 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         inputManager = InputManager.Instance;   //store the reference for input manager instance
         cameraTransform = Camera.main.transform; //get the main camera
-        //cinemachineCamera;
 
         // For Camera Crouch
         headObject = this.transform.GetChild(0).gameObject; //Cinemachine is tied to the Follow Me object
@@ -52,12 +54,13 @@ public class PlayerController : MonoBehaviour
         originalHeight = controller.height;
         canMove = true;
 
-        
+        // For animation
+        animator = GetComponentInChildren<Animator>();
+
     }
 
     void Update()
     {
-        UnityEngine.Debug.Log("playerSpeed: " + playerSpeed);
         //UnityEngine.Debug.Log("main camera vector3: " + cameraTransform.transform.forward);
         PlayerController playerController = GetComponent<PlayerController>();
         playerController.controller.height = 0;
@@ -144,7 +147,46 @@ public class PlayerController : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(bodyForward);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * playerSpeed);    //make player rotate quicker if running or slower if crouching
 
+
+        // Animation
+        if(!inputManager.IsMoving() && !inputManager.IsCrouching())
+        {
+            //Idle
+            animator.SetFloat("Speed", 0);
+            animator.SetBool("isCrouching", false);
+            UnityEngine.Debug.Log("Idle");
+        }
+        //else if (!inputManager.IsMoving() && inputManager.IsCrouching())
+        //{
+        //    //Crouch Idle
+        //    animator.SetFloat("Speed", 0);
+        //    animator.SetBool("isCrouching", true);
+        //    UnityEngine.Debug.Log("Idle Crouch");
+        //}
+        else if(inputManager.IsMoving() && !inputManager.IsSprinting() && !inputManager.IsCrouching())
+        {
+            //Walking
+            animator.SetFloat("Speed", 4f);
+            animator.SetBool("isCrouching", false);
+            UnityEngine.Debug.Log("walking");
+        }
+        //else if (inputManager.IsMoving() && !inputManager.IsSprinting() && isCrouching)
+        //{
+        //    //Crouch Walking
+        //    animator.SetFloat("Speed", 1f);
+        //    animator.SetBool("isCrouching", true);
+        //    UnityEngine.Debug.Log("crouch walk");
+        //}
+        else if (inputManager.IsMoving() && inputManager.IsSprinting() && !isCrouching)
+        {
+            //Running
+            animator.SetFloat("Speed", 8);
+            animator.SetBool("isCrouching", false);
+            UnityEngine.Debug.Log("running");
+        }
+
     }
+
 
 }
 

@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
         Vector3 finalMove = (move * playerSpeed) + (playerVelocity.y * Vector3.up);
         if (canMove)
         {
-            UnityEngine.Debug.Log("Final Move: " + finalMove);
+            //UnityEngine.Debug.Log("Final Move: " + finalMove);
             controller.Move(finalMove * Time.deltaTime);
         }
         

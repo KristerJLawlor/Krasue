@@ -59,12 +59,12 @@ public class InputManager : MonoBehaviour
         return playerControls.Player.Jump.triggered;
     }
 
-    public bool GetInteractInput()
+    public bool InteractTriggered()
     {
         return playerControls.Player.Interact.triggered;
     }
 
-    public bool GetLightInput()
+    public bool LightSwitchTriggered()
     {
         return playerControls.Player.Light.triggered;
     }

@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
             //Idle
             animator.SetFloat("Speed", 0);
             animator.SetBool("isCrouching", false);
-            UnityEngine.Debug.Log("Idle");
+            //UnityEngine.Debug.Log("Idle");
         }
         //else if (!inputManager.IsMoving() && inputManager.IsCrouching())
         //{
@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
             //Walking
             animator.SetFloat("Speed", 4f);
             animator.SetBool("isCrouching", false);
-            UnityEngine.Debug.Log("walking");
+            //UnityEngine.Debug.Log("walking");
         }
         //else if (inputManager.IsMoving() && !inputManager.IsSprinting() && isCrouching)
         //{
@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
             //Running
             animator.SetFloat("Speed", 8);
             animator.SetBool("isCrouching", false);
-            UnityEngine.Debug.Log("running");
+            //UnityEngine.Debug.Log("running");
         }
 
     }

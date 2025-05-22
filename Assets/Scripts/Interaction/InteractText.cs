@@ -27,6 +27,7 @@ public class InteractText : MonoBehaviour
     {
         Transform interactTextTransform = Instantiate(GameAssets.instance.interactText, parent);
         interactTextTransform.localPosition = localPosition;
+        interactTextTransform.Rotate(0f, 180f, 0f); // Rotate the text to face the camera
 
         interactTextTransform.GetComponent<InteractText>().Setup(iconType, text);
 
@@ -42,7 +43,7 @@ public class InteractText : MonoBehaviour
         Vector2 padding = new Vector2(1f, 0.5f);
         backgroundSpriteRenderer.size = textSize + padding;
 
-        Vector3 offset = new Vector3(-1f, 0f);
+        Vector3 offset = new Vector3(-1.2f, 0f);
         backgroundSpriteRenderer.transform.localPosition = new Vector3
             (backgroundSpriteRenderer.size.x / 2f, 0f) + offset;
 

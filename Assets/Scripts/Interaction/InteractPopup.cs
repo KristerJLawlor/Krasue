@@ -21,10 +21,10 @@ public class InteractPopup : MonoBehaviour
             Hide();
         }
     }
-    private void Show(NPCInteract npcInteract)
+    private void Show(IInteract interactable)
     {
         containerGameObject.SetActive(true);
-        interactTextMeshProUGUI.text = npcInteract.GetInteractText();
+        interactTextMeshProUGUI.text = interactable.GetInteractText();
     }
 
     private void Hide()

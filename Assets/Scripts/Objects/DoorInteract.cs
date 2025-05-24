@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DoorInteract : MonoBehaviour
+public class DoorInteract : MonoBehaviour, IInteract
 {
     private Animator animator;
     private bool isOpen;
@@ -10,9 +10,24 @@ public class DoorInteract : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void TogggleDoor()
+    public void ToggleDoor()
     {
         isOpen = !isOpen;
         animator.SetBool("isOpen", isOpen); 
+    }
+
+    public void Interact(Transform interactorTransform)
+    {
+        ToggleDoor();
+    }
+
+    public string GetInteractText()
+    {
+        return "Open Door";
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }

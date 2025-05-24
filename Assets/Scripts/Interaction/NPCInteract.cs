@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.Animations.Rigging;
 
-public class NPCInteract : MonoBehaviour
+public class NPCInteract : MonoBehaviour, IInteract
 {
     [SerializeField] private string interactText;
 
@@ -43,5 +43,10 @@ public class NPCInteract : MonoBehaviour
     public string GetInteractText()
     {
         return interactText;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }

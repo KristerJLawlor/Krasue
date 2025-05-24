@@ -17,58 +17,51 @@ public class PlayerInteract : MonoBehaviour
     {
         if(inputManager.InteractTriggered())
         {
-            Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
-            foreach (Collider collider in colliderArray)
+            IInteract interactableObject = GetInteractableObject();
+            if(interactableObject != null)
             {
-                if(collider.TryGetComponent(out NPCInteract npcInteract))
-                {
-                    npcInteract.Interact(transform);
-                }
-                if (collider.TryGetComponent(out KnobInteract knobInteract))
-                {
-                    knobInteract.PushButton();
-                    npcInteract.Interact(transform);
-                }
+                //call the interact method via Interface
+                interactableObject.Interact(transform);
             }
         }
-
     }
 
-    public NPCInteract GetInteractableObject()
+    public IInteract GetInteractableObject()
     {
         //create a list of interactable objects
-        List<NPCInteract> interactableNPCList = new List<NPCInteract>();
+        List<IInteract> interactableList = new List<IInteract>();
 
         //get all colliders in the range of the player
         Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
         foreach (Collider collider in colliderArray)
         {
             //check if the collider has the NPCInteract component then add it to the list
-            if (collider.TryGetComponent(out NPCInteract npcInteract))
+            if (collider.TryGetComponent(out IInteract interactable))
             {
-                interactableNPCList.Add(npcInteract);
+                interactableList.Add(interactable);
             }
         }
-        NPCInteract closestNPC = null;
+        IInteract closestInteractable = null;
 
         //find the closest NPCInteract object from the list
-        foreach (NPCInteract npcInteract in interactableNPCList)
+        foreach (IInteract interactable in interactableList)
         {
-            if(closestNPC == null)
+            if(closestInteractable == null)
             {
-                closestNPC = npcInteract;
+                closestInteractable = interactable;
             }
             else
             {
                 //check if the distance to the current NPCInteract object is less than the distance to the closest one
-                if (Vector3.Distance(transform.position, npcInteract.transform.position) < Vector3.Distance(transform.position, closestNPC.transform.position))
+                if (Vector3.Distance(transform.position, interactable.GetTransform().position) < Vector3.Distance(transform.position, 
+                                                                                            closestInteractable.GetTransform().position))
                 {
                     //new closer npc
-                    closestNPC = npcInteract;
+                    closestInteractable = interactable;
                 }
             }
         }
-        return closestNPC;
+        return closestInteractable;
     }
 
 }

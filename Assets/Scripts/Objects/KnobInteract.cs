@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class KnobInteract : MonoBehaviour
+public class KnobInteract : MonoBehaviour, IInteract
 {
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private Material blueMaterial;
@@ -34,5 +34,20 @@ public class KnobInteract : MonoBehaviour
     public void PushButton()
     {
         ToggleColor();
+    }
+
+    public void Interact(Transform interactorTransform)
+    {
+        PushButton();
+    }
+
+    public string GetInteractText()
+    {
+        return "Push Button";
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }
